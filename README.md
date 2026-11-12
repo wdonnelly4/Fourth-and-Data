@@ -8,7 +8,7 @@ Fourth & Data will be a Streamlit web app that collects NFL statistics in one
 place, including the niche, highly predictive metrics that most fantasy and
 sports-betting sites hide behind paywalls or leave out entirely. Beyond basic
 stats like yards and touchdowns, it will show usage and efficiency metrics such
-as target share, air yards share, snap share, red zone opportunities, and
+as target share, air yards share, snap share, red zone opportunities, pace of play and
 expected points added (EPA). Users will be able to look up players and teams,
 compare players side by side, and see how a player's recent performance stacks
 up against a betting line or fantasy projection. The app is an analytics and
@@ -32,8 +32,8 @@ write code or build spreadsheets themselves.
 - **Matchup view:** see how each defense performs against each position
   (yards and fantasy points allowed) to spot favorable matchups.
 - **Team moneyline view:** compare two teams' offensive and defensive
-  efficiency (EPA per play, success rate) alongside the moneyline.
-- **Future (machine learning):** predict player stat outcomes and compare the
+  efficiency (EPA per play, pace of play, success rate) alongside the moneyline.
+- **Future Phases (implement machine learning models and techniques):** predict player stat outcomes and compare the
   predictions to betting lines and fantasy projections.
 
 ## Course Concepts Used
