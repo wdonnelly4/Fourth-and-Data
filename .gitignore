@@ -1,0 +1,9 @@
+# Local credentials (for API keys added in later assignments)
+.env
+.streamlit/secrets.toml
+
+# Python and editor files
+__pycache__/
+.venv/
+venv/
+.DS_Store
