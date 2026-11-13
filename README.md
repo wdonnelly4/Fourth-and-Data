@@ -4,50 +4,77 @@
 Willem Donnelly
 
 ## App Description
-Fourth & Data will be a Streamlit web app that collects NFL statistics in one
-place, including the niche, highly predictive metrics that most fantasy and
-sports-betting sites hide behind paywalls or leave out entirely. Beyond basic
-stats like yards and touchdowns, it will show usage and efficiency metrics such
-as target share, air yards share, snap share, red zone opportunities, pace of play and
-expected points added (EPA). Users will be able to look up players and teams,
-compare players side by side, and see how a player's recent performance stacks
-up against a betting line or fantasy projection. The app is an analytics and
-research tool. It does not place bets.
+Fourth & Data is a Streamlit web app that pulls real, weekly NFL player stats
+and turns them into quick answers for fantasy football and player-prop
+research. Users can look up any quarterback, running back, wide receiver, or
+tight end and see their game-by-game production, including usage stats like
+target share and air yards share that most fantasy apps don't show up front.
+The Prop Analyzer lets users enter a betting line (for example, 64.5 receiving
+yards) and instantly see how often that player has gone over it in recent
+games. A leaderboard ranks players at each position by any stat. The data comes
+from nflverse, a free public NFL data project, and updates as the season goes
+on. The app is a research tool and does not place bets.
 
 ## Intended Users
 This app is intended for fantasy football players who want an edge in lineup,
 waiver, and trade decisions, and for sports bettors (21+) who research player
-props and moneylines before making their own decisions. It is designed for
-fans who want deeper data than a typical fantasy app shows, without needing to
-write code or build spreadsheets themselves.
+props before making their own decisions. It's built for fans who want deeper
+data than a typical fantasy app shows, without needing to write code or build
+spreadsheets themselves.
 
-## Planned Features
-- **Player lookup:** search any player and see season and week-by-week stats,
-  including usage metrics like target share, snap share, and air yards.
-- **Player comparison:** compare two or more players side by side to help with
-  start/sit and trade decisions.
-- **Player prop analyzer:** enter a prop line (for example, 64.5 receiving
-  yards) and see how often the player has gone over that number this season
-  and in recent games.
-- **Matchup view:** see how each defense performs against each position
-  (yards and fantasy points allowed) to spot favorable matchups.
+## Current Features (Implemented)
+- **Live NFL data:** weekly stats for the 2026 and 2025 seasons, loaded from
+  nflverse and cached for 6 hours so the app stays fast.
+- **Filters:** choose a season, a position (QB, RB, WR, TE), and whether to
+  include playoff games.
+- **Player search:** a searchable dropdown of every player at that position,
+  sorted by total fantasy points so the top players appear first.
+- **Player Lookup:** per-game averages, a chart of fantasy points by week, and
+  a full game log with position-specific stats (for example, target share for
+  receivers and passing yards for quarterbacks).
+- **Prop Analyzer:** pick a stat, enter a prop line, and choose how many recent
+  games to look at. The app counts overs, unders, and pushes, shows the over
+  rate, and draws a bar chart with each game colored by whether it went over (green)
+  or under (red).
+- **Leaderboard:** the top 25 players at a position ranked by per-game average
+  in any stat, with a minimum-games filter so one big game doesn't skew the
+  rankings.
+
+## Planned Features (Final Version)
+- **Player comparison:** compare two or more players side by side for start/sit
+  and trade decisions.
+- **Matchup view:** how each defense performs against each position (yards and
+  fantasy points allowed) to spot favorable matchups.
+- **Opponent-adjusted prop analysis:** filter a player's hit rate by home/away
+  and by the strength of the opposing defense.
 - **Team moneyline view:** compare two teams' offensive and defensive
-  efficiency (EPA per play, pace of play, success rate) alongside the moneyline.
-- **Future Phases (implement machine learning models and techniques):** predict player stat outcomes and compare the
+  efficiency (EPA per play, success rate) alongside the moneyline.
+- **Live betting lines:** pull current prop lines from a sports odds API
+  instead of entering them by hand.
+- **Deployment:** publish the app on Streamlit Community Cloud.
+- **Future (machine learning):** predict player stat outcomes and compare the
   predictions to betting lines and fantasy projections.
 
 ## Course Concepts Used
-- **Functions** to load, clean, and calculate stats (for example, a function
-  that computes a player's hit rate over a prop line).
-- **Loops** to process players, games, and weeks.
-- **Object-oriented programming** with classes such as `Player` and `Team`
-  that store stats and provide methods like `hit_rate(line)`.
-- **Conditionals and input validation** for user selections and prop lines.
-- **APIs and data** using public NFL data and, later, sports odds data.
+- **Object-oriented programming:** `player.py` defines a `Player` class that
+  stores a player's game log and has methods like `average(stat)` and
+  `hit_rate(stat, line, last_n)`.
+- **Loops and conditionals:** `hit_rate` loops through each game and uses
+  `if/elif/else` to count overs, unders, and pushes.
+- **Functions:** the app is organized into functions for each section
+  (sidebar, lookup, prop analyzer, leaderboard), plus helper functions.
+- **Dictionaries:** `data.py` maps stat columns to readable names and lists
+  which stats belong to each position.
+- **Error handling:** `try/except` shows a friendly message if the data can't
+  be loaded.
 
-## Planned Data Sources
-- Public NFL play-by-play and player data from the nflverse project.
-- Sports odds data from a public odds API (planned for a later phase).
+## Project Structure
+| File | Purpose |
+|---|---|
+| `app.py` | Streamlit interface and layout |
+| `data.py` | Loads and caches NFL data; stat names and position settings |
+| `player.py` | `Player` class with stat calculations |
+| `requirements.txt` | Required packages |
 
 ## How to Run
 1. Install the requirements:
@@ -57,6 +84,11 @@ write code or build spreadsheets themselves.
 2. Start the app:
 
        streamlit run app.py
+
+## Data Source and References
+- NFL stats: nflverse public data, https://github.com/nflverse/nflverse-data
+- Streamlit documentation: https://docs.streamlit.io
+- pandas documentation: https://pandas.pydata.org/docs/
 
 ## Disclaimer
 This app is for informational and educational purposes only. It does not place
