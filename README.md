@@ -23,57 +23,68 @@ data than a typical fantasy app shows, without needing to write code or build
 spreadsheets themselves.
 
 ## Current Features (Implemented)
-- **Live NFL data:** weekly stats for the 2026 and 2025 seasons, loaded from
-  nflverse and cached for 6 hours so the app stays fast.
-- **Filters:** choose a season, a position (QB, RB, WR, TE), and whether to
-  include playoff games.
-- **Player search:** a searchable dropdown of every player at that position,
-  sorted by total fantasy points so the top players appear first.
-- **Player Lookup:** per-game averages, a chart of fantasy points by week, and
-  a full game log with position-specific stats (for example, target share for
-  receivers and passing yards for quarterbacks).
-- **Prop Analyzer:** pick a stat, enter a prop line, and choose how many recent
-  games to look at. The app counts overs, unders, and pushes, shows the over
-  rate, and draws a bar chart with each game colored by whether it went over (green)
-  or under (red).
-- **Leaderboard:** the top 25 players at a position ranked by per-game average
-  in any stat, with a minimum-games filter so one big game doesn't skew the
-  rankings.
+The app is organized into pages, grouped in the sidebar menu.
+
+**Player Tools**
+- **Player Lookup:** per-game averages, a fantasy-points-by-week chart, and a full
+  game log with position-specific stats.
+- **Prop Analyzer:** enter a prop line and a number of recent games to see overs,
+  unders, pushes, the over rate, and a color-coded bar chart.
+- **Leaderboard:** the top 25 players at a position by per-game average in any
+  stat, with a minimum-games filter.
+
+**Usage & Volume**
+- **Target Shares:** each player's share of team targets, air yards share, and a
+  trend column comparing the last 3 games to the season average, plus a weekly
+  target share chart.
+- **Snap Shares:** offensive snap share by player, plus a team grid showing how
+  snaps split week by week.
+- **Reception Rate:** catch rate, yards per target, and yards per reception, with
+  a volume-vs-efficiency scatterplot.
+- **Carries:** carries, carries per game, carry share of team rushing attempts,
+  and a week-by-week backfield split for any team.
+
+**League**
+- **Schedule & Lines:** every game with final scores, the favorite and spread,
+  the total, and both moneylines.
+
+**Shared filters:** season (2026 or 2025) and whether to include playoff games
+apply to every page.
 
 ## Planned Features (Final Version)
-- **Player comparison:** compare two or more players side by side for start/sit
-  and trade decisions.
-- **Matchup view:** how each defense performs against each position (yards and
-  fantasy points allowed) to spot favorable matchups.
-- **Opponent-adjusted prop analysis:** filter a player's hit rate by home/away
-  and by the strength of the opposing defense.
-- **Team moneyline view:** compare two teams' offensive and defensive
-  efficiency (EPA per play, success rate) alongside the moneyline.
-- **Live betting lines:** pull current prop lines from a sports odds API
-  instead of entering them by hand.
-- **Deployment:** publish the app on Streamlit Community Cloud.
-- **Future (machine learning):** predict player stat outcomes and compare the
-  predictions to betting lines and fantasy projections.
+- **Phase 2 (fantasy and prop core):** QB target trees, red zone efficiency,
+  goal-line and short-yardage roles, 3rd and 4th down usage, and directional run
+  and pass splits, all built from play-by-play data.
+- **Phase 3 (team context):** pace and play-calling, drive efficiency, an
+  offensive line proxy, and turnover luck.
+- **Phase 4 (extras):** kicker report, special teams and field position, penalty
+  tracker, IDP defensive stats, player play logs, and game flow charts.
+- **Phase 5:** ADP from an outside fantasy data source.
+- **Player comparison** and **live betting lines** from a sports odds API.
+- **Deployment** on Streamlit Community Cloud.
+- **Machine learning:** predict player stat outcomes and compare them to prop
+  lines and fantasy projections.
 
 ## Course Concepts Used
-- **Object-oriented programming:** `player.py` defines a `Player` class that
-  stores a player's game log and has methods like `average(stat)` and
-  `hit_rate(stat, line, last_n)`.
-- **Loops and conditionals:** `hit_rate` loops through each game and uses
-  `if/elif/else` to count overs, unders, and pushes.
-- **Functions:** the app is organized into functions for each section
-  (sidebar, lookup, prop analyzer, leaderboard), plus helper functions.
-- **Dictionaries:** `data.py` maps stat columns to readable names and lists
-  which stats belong to each position.
-- **Error handling:** `try/except` shows a friendly message if the data can't
-  be loaded.
+- **Object-oriented programming:** `player.py` defines a `Player` class with
+  methods like `average(stat)` and `hit_rate(stat, line, last_n)`.
+- **Loops and conditionals:** `hit_rate` and `target_share_table` loop through
+  games and players and use `if/elif/else` logic.
+- **Functions and modules:** calculations live in `metrics.py`, data loading in
+  `data.py`, shared widgets in `common.py`, and each page in its own file.
+- **Dictionaries:** stat labels, position settings, and page navigation.
+- **Error handling:** `try/except` shows a friendly message if data can't load,
+  and the loader falls back from Parquet to CSV if needed.
 
 ## Project Structure
 | File | Purpose |
 |---|---|
-| `app.py` | Streamlit interface and layout |
-| `data.py` | Loads and caches NFL data; stat names and position settings |
-| `player.py` | `Player` class with stat calculations |
+| `app.py` | Sets up page navigation and the shared sidebar filters |
+| `app_pages/` | One file per page |
+| `common.py` | Shared filters, safe data loading, and widgets |
+| `data.py` | Downloads and caches nflverse data (weekly stats, snap counts, schedule, play-by-play) |
+| `metrics.py` | All stat calculations (plain pandas, no Streamlit) |
+| `player.py` | `Player` class |
 | `requirements.txt` | Required packages |
 
 ## How to Run
@@ -86,7 +97,9 @@ spreadsheets themselves.
        streamlit run app.py
 
 ## Data Source and References
-- NFL stats: nflverse public data, https://github.com/nflverse/nflverse-data
+- NFL stats, snap counts, schedules, and play-by-play: nflverse public data,
+  https://github.com/nflverse/nflverse-data
+- Streamlit multipage apps: https://docs.streamlit.io/develop/concepts/multipage-apps
 - Streamlit documentation: https://docs.streamlit.io
 - pandas documentation: https://pandas.pydata.org/docs/
 
