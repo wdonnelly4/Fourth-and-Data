@@ -11,7 +11,7 @@ import streamlit as st
 BASE_URL = "https://github.com/nflverse/nflverse-data/releases/download"
 CACHE_SECONDS = 60 * 60 * 6
 
-SEASONS = [2026, 2025]
+SEASONS = [2026, 2025, 2024, 2023, 2022]
 POSITIONS = ["QB", "RB", "WR", "TE"]
 
 # ---------- Weekly player stats ----------
